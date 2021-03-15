@@ -7,11 +7,11 @@
 	</head>
 	<body>
 		<div id="wrap">
-			<div id="top_content"> 
+			<div id="top_content">
 				<div id="header">
 					<div id="rightheader">
 						<p>
-							2009/11/20 
+							2009/11/20
 							<br />
 							安全退出
 						</p>
@@ -28,7 +28,7 @@
 					<p id="whereami">
 					</p>
 					<h1>
-						Welcome!
+						Welcome {{ user.realname }}!
 					</h1>
 					<table class="table">
 						<tr class="table_header">
@@ -105,3 +105,27 @@
 		</div>
 	</body>
 </html>
+
+<script src="/ems_vue/js/vue.js"></script>
+<script src="/ems_vue/js/axios.min.js"></script>
+<script>
+	var app = new Vue({
+		el: "#wrap",
+		data: { //数据
+			user:{
+				realname:"",
+			}
+		},
+		methods:{ //自定义函数
+		},
+		created(){ //生命周期函数
+			var userString = localStorage.getItem("user");
+			if(userString) {
+				this.user = JSON.parse(userString);
+			}else{
+				alert("您尚未登录，点击确定跳转至登录页面");
+				location.href="/ems_vue/login.html";
+			}
+		}
+	});
+</script>

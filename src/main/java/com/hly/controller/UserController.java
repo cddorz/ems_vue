@@ -39,9 +39,10 @@ public class UserController {
         log.info("当前登录用户的信息:[{}]",user.toString());
         Map<String, Object> map = new HashMap<>();
         try {
-            User login = userService.login(user);
+            User userDB = userService.login(user);
             map.put("state",true);
             map.put("msg","登陆成功");
+            map.put("user",userDB);
         }catch (Exception e){
             e.printStackTrace();
             map.put("state",false);
