@@ -13,12 +13,12 @@
 						<p>
 							2009/11/20
 							<br />
-							安全退出
+							<a href="javascript:;" @click="logout">安全退出</a>
 						</p>
 					</div>
 					<div id="topheader">
 						<h1 id="title">
-							<a href="#">main</a>
+							<a href="/ems_vue/emplist.html">main</a>
 						</h1>
 					</div>
 					<div id="navigation">
@@ -51,46 +51,27 @@
 								Operation
 							</td>
 						</tr>
-						<tr class="row1">
+						<tr  v-for="(emp,index) in emps" :key="emp.id" :class="index%2==0?'row1':'row2'">
 							<td>
-								1
+								{{emp.id}}
 							</td>
 							<td>
-								zhangshan
+								{{emp.name}}
 							</td>
 							<td>
-								<img src="./img/nane.gif" style="height: 60px;">
+								<img :src="'/ems_vue/' + emp.path" style="height: 60px;">
 							</td>
 							<td>
-								20000
+								{{emp.salary}}
 							</td>
 							<td>
-								20
-							</td>
-							<td>
-								<a href="emplist.html">delete emp</a>&nbsp;<a href="updateEmp.html">update emp</a>
-							</td>
-						</tr>
-						<tr class="row2">
-							<td>
-								2
-							</td>
-							<td>
-								lishi
-							</td>
-							<td>
-								<img src="./img/nane.gif" style="height: 60px;">
-							</td>
-							<td>
-								20000
-							</td>
-							<td>
-								20
+								{{emp.age}}
 							</td>
 							<td>
 								<a href="emplist.html">delete emp</a>&nbsp;<a href="updateEmp.html">update emp</a>
 							</td>
 						</tr>
+
 					</table>
 					<p>
 						<input type="button" class="button" value="Add Employee" onclick="location='addEmp.html'"/>
@@ -114,9 +95,15 @@
 		data: { //数据
 			user:{
 				realname:"",
-			}
+			},
+			emps:[]
 		},
 		methods:{ //自定义函数
+			//处理安全退出
+			logout(){
+				localStorage.removeItem("user");
+				location.reload(true);
+			}
 		},
 		created(){ //生命周期函数
 			var userString = localStorage.getItem("user");
@@ -126,6 +113,11 @@
 				alert("您尚未登录，点击确定跳转至登录页面");
 				location.href="/ems_vue/login.html";
 			}
+			//查询所有信息
+			var _this = this;
+			axios.get("http://localhost:8989/ems_vue/emp/findAll").then(res=>{
+				_this.emps = res.data;
+			});
 		}
 	});
 </script>

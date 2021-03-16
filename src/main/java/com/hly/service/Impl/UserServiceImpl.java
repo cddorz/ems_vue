@@ -1,7 +1,8 @@
-package com.hly.service;
+package com.hly.service.Impl;
 
 import com.hly.dao.UserDao;
 import com.hly.entity.User;
+import com.hly.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -14,7 +15,7 @@ import java.util.Date;
  */
 
 @Service
-public class UserServiceImpl  implements    UserService {
+public class UserServiceImpl  implements UserService {
 
 
     @Autowired

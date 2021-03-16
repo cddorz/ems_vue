@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+ <mapper namespace="com.hly.dao.EmpDao">
+    <!--findAll-->
+    <select id="findAll"  resultType="com.hly.entity.Emp">
+        select id,name,path,salary,age from t_emp
+    </select>
+
+    <!--addEmp-->
+    <insert id="addEmp" parameterType="com.hly.entity.Emp" useGeneratedKeys="true" keyProperty="id">
+        insert into t_emp values (#{id},#{name},#{path},#{salary},#{age})
+    </insert>
+
+</mapper>
