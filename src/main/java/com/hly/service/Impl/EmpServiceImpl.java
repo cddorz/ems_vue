@@ -42,4 +42,9 @@ public class EmpServiceImpl implements EmpService {
     public Emp findOne(String id) {
         return empDao.findOne(id);
     }
+
+    @Override
+    public void update(Emp emp) {
+        empDao.update(emp);
+    }
 }

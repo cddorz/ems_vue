@@ -35,6 +35,16 @@ public class EmpController {
     private String realPath;
 
     /**
+     * 通过id查询单个员工信息
+     * @param id
+     * @return
+     */
+    @GetMapping("findOne")
+    public Emp findOne(String id){
+        return empService.findOne(id);
+    }
+
+    /**
      * 获取员工列表
      * @return
      */
@@ -95,4 +105,33 @@ public class EmpController {
         }
         return  map;
     }
+
+    /**
+     * 添加员工
+     * @return
+     */
+    @PostMapping("update")
+    public Map<String, Object> update(Emp emp, MultipartFile photo) {
+        log.info("员工信息：[{}]",emp.toString());
+        Map<String, Object> map = new HashMap<>();
+        try {
+
+            if (photo!=null&&photo.getSize()!=0) {
+                //头像保存
+                String newFileName = UUID.randomUUID().toString() + "." + FilenameUtils.getExtension(photo.getOriginalFilename());
+                photo.transferTo(new File(realPath,newFileName));
+                //设置头像地址
+                emp.setPath(newFileName);
+            }
+            //保存员工信息
+            empService.update(emp);
+            map.put("state",true);
+            map.put("msg","增加员工成功");
+        } catch (Exception e) {
+            map.put("state",false);
+            map.put("msg",e.getMessage());
+        }
+        return map;
+    }
+
 }

@@ -37,4 +37,10 @@ public interface EmpService {
      */
     Emp findOne(String id);
 
+    /**
+     * 更新员工信息
+     * @param emp
+     */
+    void update(Emp emp);
+
 }

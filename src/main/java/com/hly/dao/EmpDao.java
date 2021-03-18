@@ -20,4 +20,6 @@ public interface EmpDao {
     void deleteEmp(String id);
 
     Emp findOne(String id);
+
+    void update(Emp emp);
 }

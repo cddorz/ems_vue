@@ -68,7 +68,7 @@
 								{{emp.age}}
 							</td>
 							<td>
-								<a href="javascript:;" @click="delEmp(emp.id)">delete emp</a>&nbsp;<a href="updateEmp.html">update emp</a>
+								<a href="javascript:;" @click="delEmp(emp.id)">delete emp</a>&nbsp;<a :href="'/ems_vue/updateEmp.html?id='+ emp.id">update emp</a>
 							</td>
 						</tr>
 

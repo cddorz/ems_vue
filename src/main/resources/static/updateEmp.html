@@ -40,7 +40,7 @@
 									id:
 								</td>
 								<td valign="middle" align="left">
-									1
+									{{ emp.id }}
 								</td>
 							</tr>
 							<tr>
@@ -48,7 +48,7 @@
 									name:
 								</td>
 								<td valign="middle" align="left">
-									<input type="text" class="inputgri" name="name" value="zhangshan"/>
+									<input type="text" class="inputgri" v-model="emp.name"/>
 								</td>
 							</tr>
 							<tr>
@@ -56,7 +56,7 @@
 									photo:
 								</td>
 								<td valign="middle" align="left">
-									<input type="file" name="photo" />
+									<input type="file" ref="photo" />
 								</td>
 							</tr>
 							<tr>
@@ -64,7 +64,7 @@
 									salary:
 								</td>
 								<td valign="middle" align="left">
-									<input type="text" class="inputgri" name="salary" value="20000"/>
+									<input type="text" class="inputgri" v-model="emp.salary"/>
 								</td>
 							</tr>
 							<tr>
@@ -72,12 +72,12 @@
 									age:
 								</td>
 								<td valign="middle" align="left">
-									<input type="text" class="inputgri" name="age" value="20"/>
+									<input type="text" class="inputgri" v-model="emp.age"/>
 								</td>
 							</tr>
 						</table>
 						<p>
-							<input type="submit" class="button" value="Confirm" />
+							<input type="button" @click="update" class="button" value="Confirm" />
 						</p>
 					</form>
 				</div>
@@ -99,13 +99,44 @@
 		data: { //数据
 			user:{
 				realname:"",
-			}
+			},
+			emp:{}
 		},
 		methods:{ //自定义函数
 			//处理安全退出
 			logout(){
 				localStorage.removeItem("user");
 				location.reload(true);
+			},
+			//员工信息修改
+			update(){
+				console.log(this.emp);
+				console.log(this.$refs.photo.files[0]);
+				var formData = new FormData;
+				formData.append("id",this.emp.id);
+				formData.append("name",this.emp.name);
+				formData.append("path",this.emp.path);
+				formData.append("salary",this.emp.salary);
+				formData.append("age",this.emp.age);
+				formData.append("photo",this.$refs.photo.files[0]);
+				var _this = this;
+				axios({
+					method:"post",
+					url:"http://localhost:8989/ems_vue/emp/update",
+					data:formData,
+					headers:{
+						'content-type':'multipart/form-data'
+					}
+				}).then(res=>{
+					console.log(res.data);
+					if(res.data.state) {
+						if (window.confirm(res.data.msg + ",点击确定跳转到列表页面！")) {
+							location.href = "/ems_vue/emplist.html";
+						}
+					}else {
+						alert(res.data.msg);
+					}
+				});
 			}
 		},
 		created(){ //生命周期函数
@@ -116,6 +147,16 @@
 				alert("您尚未登录，点击确定跳转至登录页面");
 				location.href="/ems_vue/login.html";
 			}
+			//获取id信息
+			var start = location.href.lastIndexOf("=");
+			var id = location.href.substring(start+1);
+			console.log(id);
+			//查询个人信息
+			var _this = this;
+			axios.get("http://localhost:8989/ems_vue/emp/findOne?id="+id).then(res=>{
+				console.log(res.data);
+				_this.emp = res.data;
+			})
 		}
 	});
 </script>

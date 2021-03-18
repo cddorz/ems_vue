@@ -20,5 +20,15 @@
         where id = #{id}
     </select>
 
+    <update id="update" parameterType="com.hly.entity.Emp">
+        update t_emp set
+        name = #{name},
+        path = #{path},
+        salary = #{salary},
+        age = #{age}
+        where
+        id = #{id}
+    </update>
+
 
 </mapper>
