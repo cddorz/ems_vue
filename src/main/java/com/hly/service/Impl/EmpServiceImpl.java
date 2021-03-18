@@ -32,4 +32,14 @@ public class EmpServiceImpl implements EmpService {
     public void addEmp(Emp emp) {
         empDao.addEmp(emp);
     }
+
+    @Override
+    public void deleteEmp(String id) {
+        empDao.deleteEmp(id);
+    }
+
+    @Override
+    public Emp findOne(String id) {
+        return empDao.findOne(id);
+    }
 }

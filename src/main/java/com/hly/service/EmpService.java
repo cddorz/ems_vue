@@ -23,4 +23,18 @@ public interface EmpService {
      * @param emp
      */
     void addEmp(Emp emp);
+
+    /**
+     * 删除员工
+     * @param id
+     */
+    void deleteEmp(String id);
+
+    /**
+     * 查询单个员工
+     * @param id
+     * @return
+     */
+    Emp findOne(String id);
+
 }

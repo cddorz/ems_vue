@@ -68,4 +68,31 @@ public class EmpController {
         }
         return map;
     }
+
+    /**
+     * 删除员工
+     * @param id
+     * @return
+     */
+    @GetMapping("delete")
+    public Map<String, Object> deleteEmp(String id){
+        Map<String, Object> map = new HashMap<>();
+        try {
+            //删除员工头像
+            Emp emp = empService.findOne(id);
+            File file = new File(realPath, emp.getPath());
+            if(file.exists()) {
+                file.delete();
+            }
+            //删除员工信息
+            empService.deleteEmp(id);
+            map.put("state",true);
+            map.put("msg","删除员工成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            map.put("state",false);
+            map.put("msg","删除员工失败");
+        }
+        return  map;
+    }
 }

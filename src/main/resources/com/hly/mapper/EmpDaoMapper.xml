@@ -11,4 +11,14 @@
         insert into t_emp values (#{id},#{name},#{path},#{salary},#{age})
     </insert>
 
+    <delete id="deleteEmp" parameterType="string">
+        delete from t_emp where id = #{id}
+    </delete>
+
+    <select id="findOne" parameterType="string" resultType="com.hly.entity.Emp">
+        select id,name,path,salary,age from t_emp
+        where id = #{id}
+    </select>
+
+
 </mapper>

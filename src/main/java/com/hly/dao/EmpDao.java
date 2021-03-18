@@ -16,4 +16,8 @@ public interface EmpDao {
     List<Emp> findAll();
 
     void addEmp(Emp emp);
+
+    void deleteEmp(String id);
+
+    Emp findOne(String id);
 }

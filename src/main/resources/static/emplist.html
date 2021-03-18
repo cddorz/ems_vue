@@ -68,7 +68,7 @@
 								{{emp.age}}
 							</td>
 							<td>
-								<a href="emplist.html">delete emp</a>&nbsp;<a href="updateEmp.html">update emp</a>
+								<a href="javascript:;" @click="delEmp(emp.id)">delete emp</a>&nbsp;<a href="updateEmp.html">update emp</a>
 							</td>
 						</tr>
 
@@ -103,6 +103,25 @@
 			logout(){
 				localStorage.removeItem("user");
 				location.reload(true);
+			},
+			//删除员工
+			delEmp(id){
+				var _this = this;
+				axios.get("http://localhost:8989/ems_vue/emp/delete?id="+id).then(res=>{
+					if(res.data.state){
+						alert(res.data.msg+",点击确定刷新数据");
+						_this.findAll();
+					}else{
+						alert(res.data.msg);
+					}
+				});
+			},
+			//查询员工列表
+			findAll(){
+				var _this = this;
+				axios.get("http://localhost:8989/ems_vue/emp/findAll").then(res=>{
+					_this.emps = res.data;
+				});
 			}
 		},
 		created(){ //生命周期函数
@@ -114,10 +133,8 @@
 				location.href="/ems_vue/login.html";
 			}
 			//查询所有信息
-			var _this = this;
-			axios.get("http://localhost:8989/ems_vue/emp/findAll").then(res=>{
-				_this.emps = res.data;
-			});
+			this.findAll();
+
 		}
 	});
 </script>
